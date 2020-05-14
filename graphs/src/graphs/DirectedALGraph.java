@@ -1,13 +1,11 @@
 package graphs;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public class DirectedALGraph<V> implements IGraph<V>
 {
     private Map<V, Node> lists;
+    private int edgeSize = 0;
 
     public DirectedALGraph()
     {
@@ -39,18 +37,40 @@ public class DirectedALGraph<V> implements IGraph<V>
     @Override
     public boolean addEdge(V source, V dest)
     {
-        if (!hasVertex(source) || !hasVertex(dest))
+        //preconditions (defensive programming)
+        if (!edgeVertsExist(source, dest)) //some vertices are missing
+        {
+            return false;
+        }
+        else if (source.equals(dest)) //no self loops!
+        {
+            return false;
+        }
+        else if (hasEdge(source, dest))
         {
             return false;
         }
 
-        return false;
+        Node head = lists.get(source);
+        if (head == null)
+        {
+            lists.put(source, new Node(dest));
+        }
+        else
+        {
+            lists.put(source, new Node(dest, head));
+        }
+        edgeSize++;
+        return true;
     }
 
     @Override
-    public void addEdges(Edge... edges)
+    public void addEdges(Edge<V>... edges)
     {
-
+        for (Edge<V> edge : edges)
+        {
+            addEdge(edge.getSource(), edge.getDestination());
+        }
     }
 
     @Override
@@ -59,9 +79,34 @@ public class DirectedALGraph<V> implements IGraph<V>
         return lists.containsKey(vertex);
     }
 
+    private boolean edgeVertsExist(V source, V dest)
+    {
+        if (!hasVertex(source) || !hasVertex(dest)) //some vertices are missing
+        {
+            return false;
+        }
+
+        return true;
+    }
+
     @Override
     public boolean hasEdge(V source, V dest)
     {
+        if (!edgeVertsExist(source, dest))
+        {
+            return false;
+        }
+
+        //search for the dest vertex in the adjacency list
+        Node current = lists.get(source);
+        while (current != null)
+        {
+            if (current.getDest().equals(dest))
+            {
+                return true;
+            }
+            current = current.getNext();
+        }
         return false;
     }
 
@@ -74,7 +119,7 @@ public class DirectedALGraph<V> implements IGraph<V>
     @Override
     public int edgeSize()
     {
-        return 0;
+        return edgeSize;
     }
 
     @Override
@@ -96,9 +141,23 @@ public class DirectedALGraph<V> implements IGraph<V>
     }
 
     @Override
-    public Set<Edge> edges()
+    public Set<Edge<V>> edges()
     {
-        return null;
+        //create a set to hold our results
+        Set<Edge<V>> results = new HashSet<>();
+
+        //loop over all vertices
+        for (V source : lists.keySet())
+        {
+            Node<V> current = lists.get(source);
+            while (current != null)
+            {
+                results.add(new Edge<V>(source, current.getDest()));
+                current = current.getNext();
+            }
+        }
+
+        return results;
     }
 
     @Override

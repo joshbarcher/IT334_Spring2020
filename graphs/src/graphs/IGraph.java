@@ -9,7 +9,7 @@ public interface IGraph<V>
     boolean addVertex(V vertex);
     void addVertices(V... vertices);
     boolean addEdge(V source, V dest);
-    void addEdges(Edge... edges);
+    void addEdges(Edge<V>... edges);
 
     //detection of elements
     boolean hasVertex(V vertex);
@@ -25,7 +25,7 @@ public interface IGraph<V>
 
     //access to data
     Set<V> vertices();
-    Set<Edge> edges();
+    Set<Edge<V>> edges();
 
     //fancy methods?
     int inDegree(V vertex);
