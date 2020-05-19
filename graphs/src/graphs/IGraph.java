@@ -28,6 +28,8 @@ public interface IGraph<V>
     Set<Edge<V>> edges();
 
     //fancy methods?
+    List<V> dfs();
+    List<V> dfs(V source);
     int inDegree(V vertex);
     int outDegree(V vertex);
     boolean isComplete();

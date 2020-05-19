@@ -161,6 +161,56 @@ public class DirectedALGraph<V> implements IGraph<V>
     }
 
     @Override
+    public List<V> dfs()
+    {
+        Set<V> visited = new HashSet<>();
+        List<V> traversal = new ArrayList<>();
+
+        for (V vertex : vertices())
+        {
+            dfs(vertex, visited, traversal);
+        }
+        return traversal;
+    }
+
+    @Override
+    public List<V> dfs(V source)
+    {
+        Set<V> visited = new HashSet<>();
+        List<V> traversal = new ArrayList<>();
+
+        //preconditions...
+        if (!hasVertex(source))
+        {
+            return traversal;
+        }
+
+        dfs(source, visited, traversal);
+        return traversal;
+    }
+
+    private void dfs(V current, Set<V> visited, List<V> traversal)
+    {
+        //have I been here before?
+        if (!visited.contains(current))
+        {
+            //record the current vertex
+            visited.add(current);
+            traversal.add(current);
+
+            //visit neighbors
+            Node edge = lists.get(current);
+            while (edge != null)
+            {
+                V neighbor = (V)edge.getDest();
+                dfs(neighbor, visited, traversal);
+
+                edge = edge.getNext();
+            }
+        }
+    }
+
+    @Override
     public int inDegree(V vertex)
     {
         return 0;
