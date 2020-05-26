@@ -30,6 +30,8 @@ public interface IGraph<V>
     //fancy methods?
     List<V> dfs();
     List<V> dfs(V source);
+    List<Edge<V>> mstPrims(V source);
+
     int inDegree(V vertex);
     int outDegree(V vertex);
     boolean isComplete();

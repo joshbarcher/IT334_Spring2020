@@ -1,6 +1,6 @@
 package graphs;
 
-public class Edge<V>
+public class Edge<V> implements Comparable<Edge<V>>
 {
     private V source;
     private V destination;
@@ -48,4 +48,35 @@ public class Edge<V>
     {
         return "(" + source + ", " + destination + ")";
     }
+
+    @Override
+    public int compareTo(Edge<V> other)
+    {
+        if (weight < other.weight)
+        {
+            return -1;
+        }
+        else if (weight > other.weight)
+        {
+            return 1;
+        }
+        else
+        {
+            return 0;
+        }
+    }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+

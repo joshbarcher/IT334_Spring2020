@@ -213,6 +213,51 @@ public class DirectedALGraph<V> implements IGraph<V>
     }
 
     @Override
+    public List<Edge<V>> mstPrims(V source)
+    {
+        //step #1 - set up data structures
+        PriorityQueue<Edge<V>> heap = new PriorityQueue<>();
+        List<Edge<V>> results = new ArrayList<>();
+        Set<V> known = new HashSet<>();
+
+        //step #2 - mark first vertex
+        visit(source, known, heap);
+
+        //step #3 - loop over all edges
+        while (results.size() < vertexSize() - 1)
+        {
+            Edge<V> smallest = heap.poll();
+
+            if (!known.contains(smallest.getSource()) ||
+                !known.contains(smallest.getDestination()))
+            {
+                //store the edge as part of the mst
+                results.add(smallest);
+
+                //visit the unknown vertex
+                V unknownVert = known.contains(smallest.getSource()) ?
+                        smallest.getDestination() : smallest.getSource();
+                visit(unknownVert, known, heap);
+            }
+        }
+
+        return results;
+    }
+
+    private void visit(V vertex, Set<V> known, PriorityQueue<Edge<V>> heap)
+    {
+        known.add(vertex);
+        Node current = lists.get(vertex);
+        while (current != null)
+        {
+            Edge<V> edge = new Edge<V>(vertex, (V)current.getDest(),
+                    current.getWeight());
+            heap.add(edge);
+            current = current.getNext();
+        }
+    }
+
+    @Override
     public int inDegree(V vertex)
     {
         return 0;
