@@ -35,7 +35,7 @@ public class DirectedALGraph<V> implements IGraph<V>
     }
 
     @Override
-    public boolean addEdge(V source, V dest)
+    public boolean addEdge(V source, V dest, double weight)
     {
         //preconditions (defensive programming)
         if (!edgeVertsExist(source, dest)) //some vertices are missing
@@ -54,11 +54,11 @@ public class DirectedALGraph<V> implements IGraph<V>
         Node head = lists.get(source);
         if (head == null)
         {
-            lists.put(source, new Node(dest));
+            lists.put(source, new Node(dest, weight));
         }
         else
         {
-            lists.put(source, new Node(dest, head));
+            lists.put(source, new Node(dest, head, weight));
         }
         edgeSize++;
         return true;
@@ -69,7 +69,8 @@ public class DirectedALGraph<V> implements IGraph<V>
     {
         for (Edge<V> edge : edges)
         {
-            addEdge(edge.getSource(), edge.getDestination());
+            addEdge(edge.getSource(), edge.getDestination(),
+                    edge.getWeight());
         }
     }
 
@@ -152,7 +153,8 @@ public class DirectedALGraph<V> implements IGraph<V>
             Node<V> current = lists.get(source);
             while (current != null)
             {
-                results.add(new Edge<V>(source, current.getDest()));
+                results.add(new Edge<V>(source, current.getDest(),
+                            current.getWeight()));
                 current = current.getNext();
             }
         }

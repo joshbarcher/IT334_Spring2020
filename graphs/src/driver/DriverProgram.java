@@ -15,12 +15,12 @@ public class DriverProgram
 
         letterGraph.addVertices('A', 'B', 'C', 'D', 'E', 'F', 'G', 'H');
         letterGraph.addEdges(
-            new Edge<>('A', 'B'),
-            new Edge<>('A', 'D'),
-            new Edge<>('B', 'C'),
-            new Edge<>('D', 'E'),
-            new Edge<>('F', 'G'),
-            new Edge<>('G', 'F')
+            new Edge<>('A', 'B', 2),
+            new Edge<>('A', 'D', 3),
+            new Edge<>('B', 'C', 4),
+            new Edge<>('D', 'E', 2),
+            new Edge<>('F', 'G', 3),
+            new Edge<>('G', 'F', 1)
         );
 
         //a, b, c, d, e, ...
@@ -51,11 +51,11 @@ public class DriverProgram
 
         //which famous actor is falling which on Twitter
         actorGraph.addEdges(
-                new Edge<>("Christian Bale", "Morgan Freeman"),
-                new Edge<>("Morgan Freeman", "Denzel Washington"),
-                new Edge<>("Morgan Freeman", "Meryl Streep"),
-                new Edge<>("Meryl Streep", "Rashida Jones"),
-                new Edge<>("Rashida Jones", "Christian Bale")
+                new Edge<>("Christian Bale", "Morgan Freeman", 0),
+                new Edge<>("Morgan Freeman", "Denzel Washington", 0),
+                new Edge<>("Morgan Freeman", "Meryl Streep", 0),
+                new Edge<>("Meryl Streep", "Rashida Jones", 0),
+                new Edge<>("Rashida Jones", "Christian Bale", 0)
         );
 
         System.out.println(actorGraph.hasEdge("Christian Bale", "Morgan Freeman"));

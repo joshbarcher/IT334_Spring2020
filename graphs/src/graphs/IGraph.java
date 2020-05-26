@@ -8,7 +8,7 @@ public interface IGraph<V>
     //insertion of data
     boolean addVertex(V vertex);
     void addVertices(V... vertices);
-    boolean addEdge(V source, V dest);
+    boolean addEdge(V source, V dest, double weight);
     void addEdges(Edge<V>... edges);
 
     //detection of elements
